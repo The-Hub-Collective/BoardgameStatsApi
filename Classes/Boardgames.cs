@@ -1,6 +1,6 @@
-﻿namespace boardgame_stats.Classes
+﻿namespace boardgameStats.Classes
 {
-    public class Boardgame
+    public class Boardgames
     {
         public int Id { get; set; }
         public string? Name { get; set; }
