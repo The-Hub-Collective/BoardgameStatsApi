@@ -1,3 +1,7 @@
+using boardgameStats.Options;
+using boardgameStats.Services;
+using Microsoft.AspNetCore.Builder;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IDatabaseService, DatabaseService>();
+builder.Services.Configure<DatabaseOptions>( builder.Configuration.GetSection( "DatabaseOptions" ) );
 
 var app = builder.Build();
 
@@ -19,5 +26,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseSwagger();
+
+app.UseSwaggerUI();
 
 app.Run();

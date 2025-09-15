@@ -1,4 +1,4 @@
-﻿namespace boardgameStats.Classes.Nemesis
+﻿namespace boardgameStats.Models
 {
     public class SessionNemesisStats
     {
