@@ -5,5 +5,6 @@
         public int SessionPlayerId { get; set; }
         public bool PersonalMissionSuccess { get; set; }
         public bool PlayerDied { get; set; }
+        public required string CharacterName { get; set; }
     }
 }

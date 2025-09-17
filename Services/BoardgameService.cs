@@ -2,8 +2,6 @@
 
 namespace boardgameStats.Services
 {
-    public class BoardgameService
-    {
         public interface IBoardgameService
         {
             public Task<IEnumerable<Boardgames>> GetBoardgames();
@@ -28,5 +26,4 @@ namespace boardgameStats.Services
             }
         }
 
-    }
 }

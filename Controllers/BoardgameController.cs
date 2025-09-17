@@ -1,7 +1,6 @@
 using boardgameStats.Classes;
 using boardgameStats.Services;
 using Microsoft.AspNetCore.Mvc;
-using static boardgameStats.Services.BoardgameService;
 
 namespace boardgame_stats.Controllers;
 

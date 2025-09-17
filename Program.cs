@@ -1,7 +1,6 @@
 using boardgameStats.Options;
 using boardgameStats.Services;
 using Microsoft.AspNetCore.Builder;
-using static boardgameStats.Services.BoardgameService;
 
 var builder = WebApplication.CreateBuilder(args);
 
