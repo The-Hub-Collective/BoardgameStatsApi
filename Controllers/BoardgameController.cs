@@ -1,6 +1,7 @@
 using boardgameStats.Classes;
 using boardgameStats.Services;
 using Microsoft.AspNetCore.Mvc;
+using static boardgameStats.Services.BoardgameService;
 
 namespace boardgame_stats.Controllers;
 
@@ -9,19 +10,19 @@ namespace boardgame_stats.Controllers;
 public class BoardgameController : ControllerBase
 {
     private readonly ILogger<BoardgameController> _logger;
-    private readonly IDatabaseService _databaseService;
+    private readonly IBoardgameService _boardgameService;
 
-    public BoardgameController(ILogger<BoardgameController> logger, IDatabaseService databaseService)
+    public BoardgameController(ILogger<BoardgameController> logger, IBoardgameService boardgameService)
     {
         _logger = logger;
-        _databaseService = databaseService;
+        _boardgameService = boardgameService;
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Boardgames>> Get()
+    public async Task<ActionResult> Get()
     {
-        var result = await _databaseService.QueryAsync<Boardgames>( "select * from Boardgames", null );
+        var result = await _boardgameService.GetBoardgames();
 
-        return result;
+        return Ok(result);
     }
 }
