@@ -1,15 +1,17 @@
 using boardgameStats.Classes;
 using boardgameStats.Services;
 using Microsoft.AspNetCore.Mvc;
+using static boardgameStats.Services.NemesisService;
 
 namespace boardgame_stats.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("boardgame")]
 public class BoardgameController : ControllerBase
 {
     private readonly ILogger<BoardgameController> _logger;
     private readonly IBoardgameService _boardgameService;
+    private readonly INemesisService _nemesisService;
 
     public BoardgameController(ILogger<BoardgameController> logger, IBoardgameService boardgameService)
     {

@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IBoardgameService, BoardgamesService>();
 builder.Services.AddScoped<IDatabaseService, DatabaseService>();
+builder.Services.AddScoped<NemesisService.INemesisService, NemesisService.NemesisServiceImp>();
 builder.Services.Configure<DatabaseOptions>( builder.Configuration.GetSection( "DatabaseOptions" ) );
 
 var app = builder.Build();
