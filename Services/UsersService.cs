@@ -6,7 +6,8 @@ namespace boardgameStats.Services
     public interface IUsersService
     {
         public Task<IEnumerable<Users>> GetUsers();
-        public Task<IReadOnlyList<Users>> CreateUserAsync( Users request );
+        public Task<IEnumerable<Users>> GetUser( int id);
+        public Task<IReadOnlyList<Users>> CreateUser( Users request );
     }
 
     public class UsersServiceImpl : IUsersService
@@ -27,7 +28,14 @@ namespace boardgameStats.Services
             return result;
         }
 
-        public async Task<IReadOnlyList<Users>> CreateUserAsync( Users newUser )
+        public async Task<IEnumerable<Users>> GetUser(int id)
+        {
+            var user = await _databaseService.QueryAsync<Users>( "select * from Users where Id = @Id", new { Id = id } );
+            
+            return user;
+        }
+
+        public async Task<IReadOnlyList<Users>> CreateUser( Users newUser )
         {
             var sql = "INSERT INTO Users (Username, Password, Email, CreatedAt) " +
                       "VALUES (@Username, @Password, @Email, @CreatedAt); " +
@@ -42,7 +50,7 @@ namespace boardgameStats.Services
             };
 
             var result = await _databaseService.QueryAsync<Users>( sql, parameters );
-            return result.ToList();
+            return ( IReadOnlyList<Users> )  result;
         }
     }
 }

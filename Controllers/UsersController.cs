@@ -38,13 +38,27 @@ namespace boardgameStats.Controllers
             return Ok( convertedResult );
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetUser( int id )
+        {
+            var user = await _usersService.GetUser( id );
+
+            //if user is null return error message
+            if ( user == null || !user.Any() )
+            {
+                return NotFound( new { message = "User not found" } );
+            }
+
+            return Ok( user );
+        }
+
         //post request
         [HttpPost]
         public async Task<ActionResult> AddUser( [FromBody] Users user )
         {
             user.CreatedAt = DateTime.UtcNow;
 
-            var result = await _usersService.CreateUserAsync( user );
+            var result = await _usersService.CreateUser( user );
 
             return Ok( result );
         }
