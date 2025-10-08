@@ -1,5 +1,6 @@
 ﻿using boardgameStats.Classes;
 using boardgameStats.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace boardgameStats.Services
 {
@@ -7,7 +8,7 @@ namespace boardgameStats.Services
     {
         public Task<IEnumerable<Users>> GetUsers();
         public Task<IEnumerable<Users>> GetUser( int id);
-        public Task<IReadOnlyList<Users>> CreateUser( Users request );
+        public Task CreateUser( Users request );
     }
 
     public class UsersServiceImpl : IUsersService
@@ -35,12 +36,13 @@ namespace boardgameStats.Services
             return user;
         }
 
-        public async Task<IReadOnlyList<Users>> CreateUser( Users newUser )
+        public async Task CreateUser(Users newUser)
         {
             var sql = "INSERT INTO Users (Username, Password, Email, CreatedAt) " +
                       "VALUES (@Username, @Password, @Email, @CreatedAt); " +
-                      "SELECT CAST(SCOPE_IDENTITY() as int);";
+                      "SELECT * FROM Users WHERE Id = SCOPE_IDENTITY();";
 
+            newUser.CreatedAt = DateTime.UtcNow;
             var parameters = new
             {
                 newUser.Username,
@@ -49,8 +51,7 @@ namespace boardgameStats.Services
                 newUser.CreatedAt,
             };
 
-            var result = await _databaseService.QueryAsync<Users>( sql, parameters );
-            return ( IReadOnlyList<Users> )  result;
+            await _databaseService.QueryAsync<Users>(sql, parameters);
         }
     }
 }

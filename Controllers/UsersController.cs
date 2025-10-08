@@ -52,15 +52,12 @@ namespace boardgameStats.Controllers
             return Ok( user );
         }
 
-        //post request
         [HttpPost]
-        public async Task<ActionResult> AddUser( [FromBody] Users user )
+        public async Task<ActionResult> CreateUser( [FromBody] Users user )
         {
-            user.CreatedAt = DateTime.UtcNow;
+            await _usersService.CreateUser( user );
 
-            var result = await _usersService.CreateUser( user );
-
-            return Ok( result );
+            return Ok( "User created" );
         }
     }
 }
