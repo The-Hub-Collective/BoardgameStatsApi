@@ -1,10 +1,11 @@
-﻿using boardgameStats.Models;
+﻿using boardgameStats.Classes;
+using boardgameStats.Models;
 
 namespace boardgameStats.Services
 {
     public interface INemesisService 
     {
-            public Task<IEnumerable<NemesisDeathTypes>> GetNemesisDeaths();
+        public Task<IEnumerable<NemesisDeathTypes>> GetNemesisDeaths();
     }
 
     public class NemesisService : INemesisService
