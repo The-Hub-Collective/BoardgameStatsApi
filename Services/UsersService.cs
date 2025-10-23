@@ -8,7 +8,7 @@ namespace boardgameStats.Services
     {
         public Task<IEnumerable<Users>> GetUsers();
         public Task<IEnumerable<Users>> GetUser( int id);
-        public Task CreateUser( Users request );
+        public Task<int> CreateUser( UsersCreateRequest request );
     }
 
     public class UsersServiceImpl : IUsersService
@@ -36,22 +36,23 @@ namespace boardgameStats.Services
             return user;
         }
 
-        public async Task CreateUser(Users newUser)
+        public async Task<int> CreateUser(UsersCreateRequest newUser)
         {
             var sql = "INSERT INTO Users (Username, Password, Email, CreatedAt) " +
                       "VALUES (@Username, @Password, @Email, @CreatedAt); " +
                       "SELECT * FROM Users WHERE Id = SCOPE_IDENTITY();";
 
-            newUser.CreatedAt = DateTime.UtcNow;
+
             var parameters = new
             {
                 newUser.Username,
                 newUser.Password,
                 newUser.Email,
-                newUser.CreatedAt,
+                CreatedAt = DateTime.UtcNow
             };
 
-            await _databaseService.QueryAsync<Users>(sql, parameters);
+            var id = await _databaseService.QueryAsync<int>(sql, parameters);
+            return id.FirstOrDefault();
         }
     }
 }

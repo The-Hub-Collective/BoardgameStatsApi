@@ -1,5 +1,6 @@
 ﻿using boardgameStats.Classes;
 using boardgameStats.Services;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -43,7 +44,6 @@ namespace boardgameStats.Controllers
         {
             var user = await _usersService.GetUser( id );
 
-            //if user is null return error message
             if ( user == null || !user.Any() )
             {
                 return NotFound( new { message = "User not found" } );
@@ -53,11 +53,11 @@ namespace boardgameStats.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateUser( [FromBody] Users user )
+        public async Task<ActionResult<UserCreatedResponse>> CreateUser( [FromBody] UsersCreateRequest user )
         {
-            await _usersService.CreateUser( user );
+            var id = await _usersService.CreateUser( user );
 
-            return Ok( "User created" );
+            return Ok( id );
         }
     }
 }
